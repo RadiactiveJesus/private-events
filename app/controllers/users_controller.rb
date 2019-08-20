@@ -10,11 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-<<<<<<< HEAD
-  
-=======
     @events = Event.where(user_id: params[:id])
->>>>>>> 63da26555e54a1346313fe6590f721486514447e
   end
 
   # GET /users/new

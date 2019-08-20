@@ -4,7 +4,9 @@ class User < ApplicationRecord
   validates :username, presence:true, uniqueness:true
   validates :password, length: {minimum: 8}, allow_blank: false
   before_create{generate_token(:remember_token)}
-  has_many :event
+  has_many :events, foreign_key: 'user_id', class_name: 'Event'
+  has_many :event_attendees, :foreign_key => "attendee_id", :class_name => "EventsAttendee"
+  has_many :attended_events, through: :event_attendees, source: :attended_event
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :events
+  get 'attend', to: 'events#attend', as: 'attend'
   get 'home/index'
   resources :users, only: [:new, :create, :show]
   get 'sessions/new' 
