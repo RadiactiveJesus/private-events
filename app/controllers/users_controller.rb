@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  include ApplicationHelper
 
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: %i[check_invites]
+  SQL = 'INNER JOIN events ON events.id = rsvps.attended_event_id'
   # GET /users
   # GET /users.json
   def index
@@ -63,6 +66,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # Allows a user to see all of the invitations they have not responded to.
+  def check_invites
+    @events_attendee = current_user.events_attendee.where(unopened).joins(SQL).order(date: :asc)
+    render 'users/events_atendee'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -72,5 +81,17 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:username, :email, :password, :password_confirmation)
+    end
+
+    def unopened
+      { accepted: false, declined: false }
+    end
+  
+    def accepted
+      { accepted: true, declined: false }
+    end
+  
+    def declined
+      { accepted: true, declined: false }
     end
 end

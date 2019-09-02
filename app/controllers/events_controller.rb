@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :attend]
+  before_action :set_event, only: [:show, :edit, :destroy, :attend]
+  #before_action :correct_user, only: %i[edit update]
 
   # GET /events
   # GET /events.json
@@ -10,6 +11,9 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @event = Event.find(params[:id])
+    @going = @event.attendees.where('accepted AND NOT declined')
+    @not_going = @event.attendees.where('NOT accepted AND declined')
   end
 
   # GET /events/new
@@ -19,6 +23,9 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    session[:event_id] = params[:id]
+    @event = Event.find(params[:id])
+    @users = User.where('id != ?', current_user.id)
   end
 
   # POST /events
@@ -39,15 +46,15 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    event_id = session[:event_id]
+    event = Event.find(event_id)
+    ids = params[:event][:attendee_ids]
+    ids.each do |id|
+      next if Events_attendee.exists?(attended_event_id: event_id, attendee_id: id)
+
+      event.events_attendees.create(attendee_id: id)
     end
+    redirect_to event
   end
 
   # DELETE /events/1
@@ -59,11 +66,6 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  def attend(user_id, event_id)
-    #@event = Event.find(event_id)
-    #@event.events_attendees.create(user_id)
-    #redirect_to events_url
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -74,5 +76,11 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:title, :description, :event_date, :location)
+    end
+
+    def correct_user
+      @event = Event.find(params[:id])
+      @creator = User.find(@event.user_id)
+      redirect_to(root_url) unless current_user?(@creator)
     end
 end
