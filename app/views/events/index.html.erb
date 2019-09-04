@@ -23,7 +23,7 @@
         <td><%= event.location %></td>
         <td><%= event.user.username %></td>
         <% if current_user.id != event.user.id %>
-          <td><%= link_to 'Attend', attend_path(event.id) %></td>
+          <td><%= link_to 'Attend', attend_path(event) %></td>
         <% end %>
       </tr>
     <% end %>

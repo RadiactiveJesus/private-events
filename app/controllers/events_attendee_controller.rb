@@ -1,5 +1,5 @@
 class EventsAttendeeController < ApplicationController
-    before_action :logged_in_user, only: %i[edit update]
+  before_action :logged_in_user, only: %i[edit update]
   before_action :correct_attendee, only: %i[edit update]
   # Pulls the invitation and shows the event information to the user. A user
   # can either accept or decline.

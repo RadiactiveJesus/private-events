@@ -19,6 +19,10 @@
   <strong>Location:</strong>
   <%= @event.location %>
 </p>
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
+    <strong>Attendees:</strong>
+    <% @event_attendees.each do |attendee| %>
+     <%=  attendee.username %> ,
+    <% end %>
+<br><br>
+<%= link_to 'Invite', edit_event_path(@event) %> |
 <%= link_to 'Back', root_path %>

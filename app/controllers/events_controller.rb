@@ -12,8 +12,9 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-    @going = @event.attendees.where('accepted AND NOT declined')
-    @not_going = @event.attendees.where('NOT accepted AND declined')
+    @event_attendees = @event.attendees
+    #@going = @event.attendees.where('accepted AND NOT declined')
+    #@not_going = @event.attendees.where('NOT accepted AND declined')
   end
 
   # GET /events/new
@@ -50,8 +51,7 @@ class EventsController < ApplicationController
     event = Event.find(event_id)
     ids = params[:event][:attendee_ids]
     ids.each do |id|
-      next if Events_attendee.exists?(attended_event_id: event_id, attendee_id: id)
-
+      next if event.events_attendees.exists?(attendee_id: id)
       event.events_attendees.create(attendee_id: id)
     end
     redirect_to event
