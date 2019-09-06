@@ -13,7 +13,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @events = Event.where(user_id: params[:id])
+    @user = User.find(params[:id])
+    @events = @user.events.paginate(page: params[:page])
+    @prev_events = @user.previous_events.paginate(page: params[:page])
+    @upcoming = @user.upcoming_events.paginate(page: params[:page])
   end
 
   # GET /users/new

@@ -1,35 +1,5 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Events</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Event date</th>
-      <th>Location</th>
-      <th>Owner</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= event.title %></td>
-        <td><%= event.description %></td>
-        <td><%= event.event_date %></td>
-        <td><%= event.location %></td>
-        <td><%= event.user.username %></td>
-        <% if current_user.id != event.user.id %>
-          <td><%= link_to 'Attend', attend_path(event) %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<%= provide(:title, 'All Events') %>
+<h1><%= @header %></h1>
+<%= render 'event_list', events: @events%>
 
 <%= link_to 'New Event', new_event_path %>

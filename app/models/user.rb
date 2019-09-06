@@ -21,4 +21,14 @@ class User < ApplicationRecord
     end while User.exists?(column => self[column])
   end
 
+  def previous_events
+    attended_events.where('event_date < :current_date AND accepted',
+                          current_date: DateTime.now)
+  end
+
+  def upcoming_events
+    attended_events.where('event_date >= :current_date AND accepted',
+                          current_date: DateTime.now)
+  end
+  
 end
