@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :destroy, :attend]
-  #before_action :correct_user, only: %i[edit update]
+  before_action :require_login, only: [:new, :create]
 
   # GET /events
   # GET /events.json
@@ -19,8 +19,6 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @event_attendees = @event.attendees
-    #@going = @event.attendees.where('accepted AND NOT declined')
-    #@not_going = @event.attendees.where('NOT accepted AND declined')
   end
 
   # GET /events/new
@@ -88,5 +86,16 @@ class EventsController < ApplicationController
       @event = Event.find(params[:id])
       @creator = User.find(@event.user_id)
       redirect_to(root_url) unless current_user?(@creator)
+    end
+
+    def require_login
+      unless logged_in?
+        flash[:error] = "You must be logged in to access this section"
+        redirect_to login_url
+      end
+    end
+
+    def logged_in?
+      !current_user.nil?
     end
 end
