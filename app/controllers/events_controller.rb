@@ -5,13 +5,13 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    if params[:events].nil? || params[:events][:type] == 'upcoming'
-      @events = Event.upcoming.paginate(page: params[:page])
-      @header = 'Upcoming Events'
-    else
-      @events = Event.prev.paginate(page: params[:page])
-      @header = 'Previous Events'
-    end
+
+      @upcoming_events = Event.upcoming.paginate(page: params[:page])
+      @upcoming_header = 'Upcoming Events'
+
+      @prev_events = Event.prev.paginate(page: params[:page])
+      @prev_header = 'Previous Events'
+    
   end
   # GET /events/1
   # GET /events/1.json
