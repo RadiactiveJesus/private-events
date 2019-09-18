@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :destroy, :attend]
   before_action :require_login, only: [:new, :create]
+
   # GET /events
   # GET /events.json
   def index
@@ -77,12 +78,14 @@ class EventsController < ApplicationController
       @creator = User.find(@event.user_id)
       redirect_to(root_url) unless current_user?(@creator)
     end
+
     def require_login
       unless logged_in?
         flash[:error] = "You must be logged in to access this section"
         redirect_to login_url
       end
     end
+
     def logged_in?
       !current_user.nil?
     end
