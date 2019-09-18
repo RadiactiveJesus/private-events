@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :destroy, :attend]
-  #before_action :correct_user, only: %i[edit update]
-
+  before_action :require_login, only: [:new, :create]
   # GET /events
   # GET /events.json
   def index
@@ -13,28 +12,22 @@ class EventsController < ApplicationController
       @header = 'Previous Events'
     end
   end
-
   # GET /events/1
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
     @event_attendees = @event.attendees
-    #@going = @event.attendees.where('accepted AND NOT declined')
-    #@not_going = @event.attendees.where('NOT accepted AND declined')
   end
-
   # GET /events/new
   def new
     @event = Event.new
   end
-
   # GET /events/1/edit
   def edit
     session[:event_id] = params[:id]
     @event = Event.find(params[:id])
     @users = User.where('id != ?', current_user.id)
   end
-
   # POST /events
   # POST /events.json
   def create
@@ -49,7 +42,6 @@ class EventsController < ApplicationController
       end
     end
   end
-
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
@@ -62,7 +54,6 @@ class EventsController < ApplicationController
     end
     redirect_to event
   end
-
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
@@ -72,21 +63,27 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
     end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:title, :description, :event_date, :location)
     end
-
     def correct_user
       @event = Event.find(params[:id])
       @creator = User.find(@event.user_id)
       redirect_to(root_url) unless current_user?(@creator)
+    end
+    def require_login
+      unless logged_in?
+        flash[:error] = "You must be logged in to access this section"
+        redirect_to login_url
+      end
+    end
+    def logged_in?
+      !current_user.nil?
     end
 end
