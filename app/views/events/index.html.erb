@@ -1,5 +1,6 @@
 <%= provide(:title, 'All Events') %>
-<h1><%= @header %></h1>
-<%= render 'event_list', events: @events%>
-
-<%= link_to 'New Event', new_event_path %>
+<h1><%= @upcoming_header %></h1>
+<%= render 'event_list', events: @upcoming_events%>
+<h1><%= @prev_header %></h1>
+<%= render 'event_list', events: @prev_events%>
+<%= link_to 'Create Event', new_event_path %>
