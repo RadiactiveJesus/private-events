@@ -21,4 +21,6 @@ class SessionsController < ApplicationController
       cookies.delete(:remember_token)
       redirect_to root_url, notice: "Logged  out!"
     end
+
+        
 end

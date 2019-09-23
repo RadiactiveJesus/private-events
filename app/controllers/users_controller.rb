@@ -15,8 +15,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @events = @user.events.paginate(page: params[:page])
-    @prev_events = @user.previous_events.paginate(page: params[:page])
-    @upcoming = @user.upcoming_events.paginate(page: params[:page])
+    @prev_events = @user.attended_events.prev.paginate(page: params[:page])
+    @upcoming = @user.attended_events.upcoming.paginate(page: params[:page])
   end
 
   # GET /users/new

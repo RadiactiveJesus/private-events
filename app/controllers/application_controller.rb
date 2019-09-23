@@ -16,5 +16,20 @@ class ApplicationController < ActionController::Base
           flash[:danger] = 'You must log in to continue.'
           redirect_to login_url
         end
+    end
+
+    private 
+
+    def log_in(user)
+        session[:name] = user.name
       end
+  
+    def log_out
+        session.delete(:name)
+        @current_user = nil
+    end
+
+    def current_user?(user)
+        user == current_user
+    end
 end

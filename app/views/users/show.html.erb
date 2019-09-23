@@ -11,21 +11,17 @@
         <%= will_paginate @events %>
     </ol>
 <% end%>
-<% if @prev_events.any?%>
-    <h2><%= @user.username %> has attended:</h2>
-    <ol class='events'>
-        <%= will_paginate @prev_events %>
-        <%= render @prev_events%>
-        <%= will_paginate @prev_events %>
-    </ol>
-<% end%>
-<% if @upcoming.any?%>
-    <h2><%= @user.username%> is attending:</h2>
-    <ol class='events'>
-        <%= will_paginate @upcoming %>
-        <%= render @upcoming%>
-        <%= will_paginate @upcoming %>
-    </ol>
-<% end %>
+<h1>Future Events</h1>
+<ul>
+    <% @upcoming.each do |event| %>
+        <li><p><%= link_to event.title, event_path(event) %></p></li>  
+    <% end %>
+</ul>
+<h1>Past Events</h1>
+<ul>
+    <% @prev_events.each do |event| %>
+        <li><p><%=link_to event.title, event_path(event) %></p></li>  
+    <% end %>
+</ul>
 
 

@@ -19,24 +19,24 @@ RSpec.describe User, type: :model do
   end
 
   context 'Validations' do
-    user { User.new }
+    subject { User.create }
     it 'returns true if the form successfully achieves all the validations' do
-      user.username = 'Anything'
-      user.email = 'Anything@example.com'
-      user.password = 'anything'
-      expect(user).to be_valid
+      subject.username = 'Anything'
+      subject.email = 'Anything@example.com'
+      subject.password = 'anything'
+      expect(subject).to be_valid
     end
     it 'returns true if the form doesnt have a username' do
-      expect(user).to_not be_valid
+      expect(subject).to_not be_valid
     end
     it 'returns true if the form doesnt have a email' do
-      subject.name = 'Anything'
-      expect(user).to_not be_valid
+      subject.username = 'Anything'
+      expect(subject).to_not be_valid
     end
     it 'returns true if the form doesnt have a title' do
-      user.username = 'Anything'
-      user.email = 'Anything@example.com'
-      expect(user).to_not be_valid
+      subject.username = 'Anything'
+      subject.email = 'Anything@example.com'
+      expect(subject).to_not be_valid
     end
   end
 end
