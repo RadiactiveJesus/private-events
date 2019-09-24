@@ -3,6 +3,12 @@ require 'capybara/rspec'
 RSpec.describe 'events managments', type: :feature do
   scenario 'events have all events index' do
     visit root_path
+    user = User.create(username:'Freezer',
+      email: 'email@example.com',
+      password: 'anything')
+      visit login_path
+      fill_in :username, with: "Freezer"
+      click_button 'Login'
     sleep(2)
     expect(page).to have_content('All Events')
   end

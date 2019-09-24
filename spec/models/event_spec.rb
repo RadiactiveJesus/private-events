@@ -25,6 +25,7 @@ RSpec.describe Event, type: :model do
       subject.description = 'Anything'
       subject.event_date = DateTime.now
       subject.location = 'Anything'
+      subject.user = event_creator
       expect(subject).to be_valid
     end
     it 'returns true if the form doesnt have a title' do

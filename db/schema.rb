@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_042653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "accepted", default: false
-    t.boolean "declined", default: false
     t.index ["attended_event_id"], name: "index_events_attendees_on_attended_event_id"
     t.index ["attendee_id"], name: "index_events_attendees_on_attendee_id"
   end

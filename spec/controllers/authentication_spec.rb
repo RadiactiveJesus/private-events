@@ -8,8 +8,7 @@ RSpec.feature 'Forms', type: :feature do
                   password: 'anything')
     visit login_path
     fill_in :username, with: "Freezer"
-    page.find("#cookie_username").click
-    user.reload
-    expect(user.email).to eq(user.email)
+    click_button 'Login'
+    expect(page).to have_content('Logged in!')
   end
 end
