@@ -1,4 +1,4 @@
-
+<%= link_to "Home", root_path %>
 <p id=”alert”><%= alert %></p><h1>Login</h1><%= form_tag sessions_create_path do |form| %>
   <div class=”field”>
     <%= label_tag :username %>
@@ -10,5 +10,4 @@
   </div>   <div class=”actions”>
     <%= submit_tag "Login" %>
   </div>
-  <%= link_to "Back home", root_path %>
 <% end %>

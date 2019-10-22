@@ -1,3 +1,5 @@
+<%= link_to "Home", root_path %>
+
 <%= provide(:title, 'All Events') %>
 <h1><%= @upcoming_header %></h1>
 <%= render 'event_list', events: @upcoming_events%>
