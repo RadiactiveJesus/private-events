@@ -1,0 +1,28 @@
+<%= link_to "Home", root_path %>
+
+<%= provide(:title, @user.username)%>
+
+<h1><%= @user.username %></h1>
+<%= link_to 'Create an event', new_event_path %>
+<% if @events.any?%>
+    <h2><%= @user.username %>'s events:</h2>
+    <ol class='events'>
+        <%= will_paginate @events %>
+        <%= render @events %>
+        <%= will_paginate @events %>
+    </ol>
+<% end%>
+<h1>Future Events</h1>
+<ul>
+    <% @upcoming.each do |event| %>
+        <li><p><%= link_to event.title, event_path(event) %></p></li>  
+    <% end %>
+</ul>
+<h1>Past Events</h1>
+<ul>
+    <% @prev_events.each do |event| %>
+        <li><p><%=link_to event.title, event_path(event) %></p></li>  
+    <% end %>
+</ul>
+
+
