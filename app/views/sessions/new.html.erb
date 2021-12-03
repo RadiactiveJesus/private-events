@@ -1,0 +1,13 @@
+<%= link_to "Home", root_path %>
+<p id=”alert”><%= alert %></p><h1>Login</h1><%= form_tag sessions_create_path do |form| %>
+  <div class=”field”>
+    <%= label_tag :username %>
+    <%= text_field_tag :username %>
+  </div>  <div class=”field”>
+  </div> <div class=”field”>
+    <%= label_tag :remember_me %>
+    <%= check_box_tag :remember_me %>
+  </div>   <div class=”actions”>
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+<%= link_to "Home", root_path %>
+
+<h1><%= @event.location %></h1>
+<span><%= @event.date.strftime("%A, %B %d, %Y at %r") %></span>
+<div class='event_info'>
+    <span>created by: <%= link_to @event.creator.name, @event.creator%></span>
+</div>
+<div class='event_info' id='description'>
+    <span>Event Details:</span>
+    <span><%= @event.description%></span>
+</div>    
+<div class='center'>
+    <span><%= pluralize(@going.count, 'attendee')%>:</span></br>
+    <% if @going.any? %>
+        <ol class='attendees'>
+            <% @going.each do |attendee| %>
+                <li><%= link_to attendee.name, attendee %></li>
+            <% end %>
+        </ol>
+    <% end %>
+    <span><%= pluralize(@not_going.count, 'skipper')%>:</span>
+    <% if @not_going.any? %>
+        <ol class='attendees'>
+            <% @not_going.each do |attendee| %>
+                <li><%= link_to attendee.name, attendee %></li>
+            <% end %>
+        </ol>
+    <% end %>
+</div>
+<div class='container container-fluid'>
+    <%= form_for @rsvp do |f|%>
+        <div class="form-check form-check-inline col-md-4 offset-md-2">
+            <%= f.radio_button :accepted, true, class: 'form-check-input'%>
+            <%= f.label :accepted, 'Going', class: 'form-check-label'%>
+        </div>
+        <div class="form-check form-check-inline col-md-4">
+            <%= f.radio_button :accepted, false, class: 'form-check-input'%>
+            <%= f.label :accepted, "Can't Make It", class: 'form-check-label'%>
+        </div></br></br>
+        
+        <%= f.submit :Respond, class: 'col-md-4 btn btn-dark'%>
+    <% end %>
+</div>
